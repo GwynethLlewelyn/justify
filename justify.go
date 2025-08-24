@@ -4,7 +4,13 @@ import (
 	"strings"
 )
 
+// Given a string, proportionally justifies `text` to the given `width`
 func Justify(text string, width int) string {
+	// deal wih some basic cases
+	if width < 1 || len(text) == 0 {
+		return ""
+	}
+
 	words := strings.Fields(text)
 	lines := [][]string{}
 	line := []string{}
@@ -50,7 +56,7 @@ func Justify(text string, width int) string {
 				}
 			}
 		}
-		result.WriteString("\n")
+		result.WriteString("\n") // should be made optional
 	}
 	return result.String()
 }
