@@ -1,5 +1,6 @@
 # justify
 A Go package to justify text (left and right alignment), old-school typewriter style.
+[![Go](https://github.com/GwynethLlewelyn/justify/actions/workflows/go.yml/badge.svg)](https://github.com/GwynethLlewelyn/justify/actions/workflows/go.yml)
 
 ## Usage
 
