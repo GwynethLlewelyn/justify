@@ -4,6 +4,9 @@ import (
 	"strings"
 )
 
+// To skip the final newline (useful if you're already outputting it upstream)
+var EOL = true
+
 // Given a string, proportionally justifies `text` to the given `width`
 func Justify(text string, width int) string {
 	// deal wih some basic cases
@@ -34,7 +37,9 @@ func Justify(text string, width int) string {
 	for i, l := range lines {
 		if i == len(lines)-1 || len(l) == 1 { // Last line or single word, left-align
 			result.WriteString(strings.Join(l, " "))
-			result.WriteString("\n")
+			if EOL {
+				result.WriteString("\n")
+			}
 			continue
 		}
 		// Justify the line
@@ -56,7 +61,9 @@ func Justify(text string, width int) string {
 				}
 			}
 		}
-		result.WriteString("\n") // should be made optional
+		if EOL {
+			result.WriteString("\n")
+		}
 	}
 	return result.String()
 }
