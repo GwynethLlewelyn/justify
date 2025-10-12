@@ -54,7 +54,7 @@ To avoid outputting the last newline (whenever calling this function from somewh
 On a CLI application, if you wish to justify some text to the current width of the console, you can use something like the following code:
 
 ```go
-include (
+import (
 	"fmt"
 	"os"
 	
