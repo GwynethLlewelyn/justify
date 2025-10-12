@@ -54,29 +54,33 @@ To avoid outputting the last newline (whenever calling this function from somewh
 On a CLI application, if you wish to justify some text to the current width of the console, you can use something like the following code:
 
 ```go
+package main
+
 import (
 	"fmt"
 	"os"
-	
+
 	"github.com/GwynethLlewelyn/justify"
-	"golang/x/term"
+	"golang.org/x/term"
 )
 
 func main() {
 	termWidth := 80 // default terminal width
 	var err error
-	
+
 	if term.IsTerminal(int(os.Stdin.Fd())) {
 		if termWidth, _, err = term.GetSize(int(os.Stdin.Fd())); err != nil {
 			fmt.Println("could not figure out terminal width; error was", err) // handle (or ignore) error
 		}
 		fmt.Println("Terminal width set to", termWidth)
 	} else {
-		t.Logfmt.Println("Not connected to a TTY; using default width of", termWidth)
+		fmt.Println("Not connected to a TTY; using default width of", termWidth)
 	}
-	
-	fmt.Println(justify.Justify(`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum`, termWidth))
+
+	fmt.Println(justify.Justify("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum", termWidth))
 }
 ```
+[![Go Playground](https://img.shields.io/badge/Go_Playground-%2300ADD8?style=plastic&logo=go&logoColor=%2300ADD8&labelColor=%23FFFFFF)](https://go.dev/play/p/hswg1Fl1h_V)
+
 
 [![Go](https://github.com/GwynethLlewelyn/justify/actions/workflows/go.yml/badge.svg)](https://github.com/GwynethLlewelyn/justify/actions/workflows/go.yml)
