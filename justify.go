@@ -7,9 +7,35 @@ import (
 // To skip the final newline (useful if you're already outputting it upstream)
 var EOL = true
 
-// Given a string, proportionally justifies `text` to the given `width`
+// Given a string, proportionally justifies `text` to the given `width`, respecting existing newlines.
 func Justify(text string, width int) string {
-	// deal wih some basic cases
+	// deal with some trivial cases.
+	if width < 1 || len(text) == 0 {
+		return ""
+	}
+	var justified strings.Builder
+
+	for oneLine := range strings.SplitSeq(text, "\n") {
+		buf := JustifyLine(oneLine, width)
+		if len(buf) == 0 {
+			continue
+		}
+		justified.WriteString(buf)
+		if buf[len(buf)-1] != '\n' {
+			justified.WriteRune('\n')
+		}
+	}
+	// If we want to strip the trailing newline, we do that:
+	if !EOL && justified.Len() != 0 {
+		return justified.String()[:justified.Len()-1]
+	}
+
+	return justified.String()
+}
+
+// Justifies a line of text, with or without nwlines in it.
+func JustifyLine(text string, width int) string {
+	// deal with some trivial cases.
 	if width < 1 || len(text) == 0 {
 		return ""
 	}
@@ -36,10 +62,7 @@ func Justify(text string, width int) string {
 	var result strings.Builder
 	for i, l := range lines {
 		if i == len(lines)-1 || len(l) == 1 { // Last line or single word, left-align
-			result.WriteString(strings.Join(l, " "))
-			if EOL {
-				result.WriteString("\n")
-			}
+			result.WriteString(strings.Join(l, " ") + "\n")
 			continue
 		}
 		// Justify the line
@@ -56,14 +79,15 @@ func Justify(text string, width int) string {
 			if j < gaps {
 				result.WriteString(strings.Repeat(" ", space))
 				if extra > 0 {
-					result.WriteString(" ")
+					result.WriteRune(' ')
 					extra--
 				}
 			}
 		}
-		if EOL {
-			result.WriteString("\n")
-		}
+		result.WriteRune('\n')
+	}
+	if !EOL {
+		return strings.TrimSpace(result.String())
 	}
 	return result.String()
 }
