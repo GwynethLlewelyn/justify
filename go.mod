@@ -1,8 +1,8 @@
 module github.com/GwynethLlewelyn/justify
 
-go 1.24.0
+go 1.26.0
 
-toolchain go1.24.6
+toolchain go1.26.2
 
 require golang.org/x/term v0.36.0
 
